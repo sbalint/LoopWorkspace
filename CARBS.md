@@ -18,7 +18,10 @@ All other submodules still come from LoopKit unchanged.
 git fetch origin && git merge origin/next-dev
 # Loop: move our branch onto the Loop commit next-dev now pins
 NEW=$(git ls-tree origin/next-dev Loop | awk '{print $3}')
-cd Loop && git fetch origin && git merge $NEW && git push sbalint carbs-next-dev && cd ..
+cd Loop
+git remote get-url loopkit >/dev/null 2>&1 || git remote add loopkit https://github.com/LoopKit/Loop.git
+git fetch loopkit && git merge $NEW && git push https://github.com/sbalint/Loop.git HEAD:carbs-next-dev
+cd ..
 git submodule update --init --recursive
 git add Loop && git commit -m "Bump Loop to next-dev $NEW plus Carbs changes" && git push sbalint carbs-next-dev
 ```
